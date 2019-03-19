@@ -12,7 +12,7 @@ describe('User visits root', () => {
     it('provides a form to create a new item', () => {
       browser.url('/');
       browser.click('a[href="create.html"]');
-      assert.include(browser.getText('title'), 'Create');
+      assert.include(browser.getText('h2[id="page-title"]'), 'Create');
     })
   })
 });
