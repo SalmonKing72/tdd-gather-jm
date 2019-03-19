@@ -7,4 +7,12 @@ describe('User visits root', () => {
       assert.equal(browser.getText('#items-container'), '');
     });
   });
+
+  describe('to create a new item', () => {
+    it('provides a form to create a new item', () => {
+      browser.url('/');
+      browser.click('a[href="create.html"]');
+      assert.include(browser.getText('title'), 'Create');
+    })
+  })
 });
