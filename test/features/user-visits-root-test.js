@@ -11,7 +11,7 @@ describe('User visits root', () => {
   describe('to create a new item', () => {
     it('provides a form to create a new item', () => {
       browser.url('/');
-      browser.click('a[href="create.html"]');
+      browser.click('a[href="/items/create"]');
       assert.include(browser.getText('h2[id="page-title"]'), 'Create');
     })
   })
