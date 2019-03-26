@@ -18,12 +18,37 @@ const findImageElementBySource = (htmlAsString, src) => {
 };
 
 describe('Server path: /items/create', () => {
-  const itemToCreate = buildItemObject();
 
   beforeEach(connectDatabaseAndDropData);
 
   afterEach(diconnectDatabase);
 
   // Write your describe blocks below:
+  describe('GET', () => {
+    it('renders empty input fields', async () => {
+      const response = await request(app)
+        .get('/items/create')
+        .send();
 
+      assert.equal(parseTextFromHTML(response.text, 'input#title-input').length, 0);
+      assert.equal(parseTextFromHTML(response.text, 'input#imageUrl-input').length, 0);
+      assert.equal(parseTextFromHTML(response.text, 'textarea#description-input').length, 0);
+      
+    });
+  });
+
+  describe('POST', () => {
+    it('create a new item and then render it', async () => {
+      const itemToCreate = buildItemObject();
+
+      const response = await request(app)
+        .post('/items/create')
+        .type('form')
+        .send(itemToCreate);
+
+      assert.include(parseTextFromHTML(response.text, '.item-title'), itemToCreate.title);
+      const imageElement = findImageElementBySource(response.text, itemToCreate.imageUrl);
+      assert.equal(imageElement.src, itemToCreate.imageUrl);
+    });
+  });
 });
