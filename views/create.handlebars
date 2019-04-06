@@ -22,6 +22,9 @@
             <!-- Add your form elements here -->
             <label class="form-label" for="title">Title</label>
             <input id="title-input" name="title" maxlength="50"/>
+            {{#with newItem}}
+            <span id="title-errors">{{errors.title.message}}</span>
+            {{/with}}
 
             <label class="form-label" for="description">Description</label>
             <textarea id="description-input" name="description"></textarea>
