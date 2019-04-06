@@ -28,9 +28,15 @@
 
             <label class="form-label" for="description">Description</label>
             <textarea id="description-input" name="description">{{newItem.description}}</textarea>
+            {{#with newItem}}
+            <span id="description-errors">{{errors.description.message}}</span>
+            {{/with}}
 
             <label class="form-label" for="imageUrl">Image Url</label>
-            <input id="imageUrl-input" name="imageUrl" value="{{newItem.description}}" oninput="handleChange"/>
+            <input id="imageUrl-input" name="imageUrl" value="{{newItem.imageUrl}}" oninput="handleChange"/>
+            {{#with newItem}}
+            <span id="image-url-errors">{{errors.imageUrl.message}}</span>
+            {{/with}}
 
             <div class="form-navigation">
               <a href="/">
