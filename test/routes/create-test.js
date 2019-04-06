@@ -38,7 +38,7 @@ describe('Server path: /items/create', () => {
   });
 
   describe('POST', () => {
-    it('create a new item and then render it', async () => {
+    it('create a new item and persists it', async () => {
       const itemToCreate = buildItemObject();
 
       const response = await request(app)
@@ -46,9 +46,8 @@ describe('Server path: /items/create', () => {
         .type('form')
         .send(itemToCreate);
 
-      assert.include(parseTextFromHTML(response.text, '.item-title'), itemToCreate.title);
-      const imageElement = findImageElementBySource(response.text, itemToCreate.imageUrl);
-      assert.equal(imageElement.src, itemToCreate.imageUrl);
+      let createdItem = await Item.findOne(itemToCreate);
+      assert.isNotNull(createdItem, 'the item was not created in the database')
     });
   });
 });
