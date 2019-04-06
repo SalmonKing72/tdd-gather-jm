@@ -17,7 +17,11 @@ describe('Model: Item', () => {
     it('should be a string', async () => {
       const testTitle = 3;
 
-      const item = await Item.create({title: testTitle});
+      const item = await Item.create({
+        title: testTitle,
+        description: 'test',
+        imageUrl: 'test'
+      });
 
       assert.strictEqual(testTitle.toString(), item.title);
     });
@@ -35,5 +39,55 @@ describe('Model: Item', () => {
     })
   });
 
-  describe('Item\'s description field)
+  describe('Item\'s description field', () => {
+    it('should be a string', async () => {
+      const testDescription = 3;
+
+      const item = await Item.create({
+        title: 'test',
+        description: testDescription,
+        imageUrl: 'test'
+      });
+
+      assert.strictEqual(testDescription.toString(), item.description);
+    });
+
+    it('should be required', async () => {
+      const invalidItem = new Item({
+        title: 'test',
+        description: null,
+        imageUrl: 'https://www.placebear.com/200/300'
+      });
+
+      invalidItem.validateSync();
+
+      assert.equal(invalidItem.errors.description.message, 'Path `description` is required.');
+    });
+  });
+
+  describe('Item\'s image url field', () => {
+    it('should be a string', async () => {
+      const testUrl = 3;
+
+      const item = await Item.create({
+        title: 'test',
+        description: 'test',
+        imageUrl: testUrl
+      });
+
+      assert.strictEqual(testUrl.toString(), item.imageUrl);
+    });
+
+    it('should be required', async () => {
+      const invalidItem = new Item({
+        title: 'test',
+        description: 'test',
+        imageUrl: null
+      });
+
+      invalidItem.validateSync();
+
+      assert.equal(invalidItem.errors.imageUrl.message, 'Path `imageUrl` is required.');
+    });
+  });
 });
