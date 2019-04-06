@@ -13,7 +13,7 @@ describe('Model: Item', () => {
   });
 
   // Write your tests below:
-  describe('item\'s title field', () => {
+  describe('Item\'s title field', () => {
     it('should be a string', async () => {
       const testTitle = 3;
 
@@ -33,5 +33,7 @@ describe('Model: Item', () => {
 
       assert.equal(invalidItem.errors.title.message, 'Path `title` is required.');
     })
-  })
+  });
+
+  describe('Item\'s description field)
 });

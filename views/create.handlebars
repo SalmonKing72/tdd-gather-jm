@@ -27,10 +27,10 @@
             {{/with}}
 
             <label class="form-label" for="description">Description</label>
-            <textarea id="description-input" name="description"></textarea>
+            <textarea id="description-input" name="description">{{newItem.description}}</textarea>
 
             <label class="form-label" for="imageUrl">Image Url</label>
-            <input id="imageUrl-input" name="imageUrl" oninput="handleChange"/>
+            <input id="imageUrl-input" name="imageUrl" value="{{newItem.description}}" oninput="handleChange"/>
 
             <div class="form-navigation">
               <a href="/">
