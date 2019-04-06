@@ -47,7 +47,7 @@ describe('Server path: /items/create', () => {
         .send(itemToCreate);
 
       let createdItem = await Item.findOne(itemToCreate);
-      assert.isNotNull(createdItem, 'the item was not created in the database')
+      assert.isNotNull(createdItem, 'the item was not created in the database');
     });
   });
 });
