@@ -6,14 +6,14 @@ const app = require('../../app');
 const {parseTextFromHTML, seedItemToDatabase} = require('../test-utils');
 const {connectDatabaseAndDropData, diconnectDatabase} = require('../setup-teardown-utils');
 
-describe('Server path: /items/:id', () => {
+describe('Server path: /items/:id/delete', () => {
   beforeEach(connectDatabaseAndDropData);
 
   afterEach(diconnectDatabase);
 
   // Write your test blocks below:
-  describe('GET', () => {
-    it('renders a single item and its fields', async () => {
+  describe('POST', () => {
+    it('deletes a single item from view and database', async () => {
       const testItem = await seedItemToDatabase({
         description: "My favorite item", 
         imageUrl: "https://i.ytimg.com/vi/Ud1wq0lx1oY/hqdefault.jpg",
@@ -21,12 +21,12 @@ describe('Server path: /items/:id', () => {
       });
 
       const response = await request(app)
-        .get(`/items/${testItem._id}`)
+        .get(`/items/${testItem._id}/delete`)
         .send();
       
       assert.equal(response.status, 200);
-      assert.include(parseTextFromHTML(response.text, '#item-title'), testItem.title);
-      assert.include(parseTextFromHTML(response.text, '#item-description'), testItem.description);
+      assert.notInclude(parseTextFromHTML(response.text, '#item-title'), testItem.title);
+      assert.notInclude(parseTextFromHTML(response.text, '#item-description'), testItem.description);
     })
   })
 });
