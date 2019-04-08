@@ -14,7 +14,7 @@ describe('Server path: /items/:id', () => {
   // Write your test blocks below:
   describe('GET', () => {
     it('renders a single item and its fields', async () => {
-      const testItem = seedItemToDatabase({
+      const testItem = await seedItemToDatabase({
         description: "My favorite item", 
         imageUrl: "https://i.ytimg.com/vi/Ud1wq0lx1oY/hqdefault.jpg",
         title: "69 Camaro SS"
@@ -25,7 +25,7 @@ describe('Server path: /items/:id', () => {
         .send();
       
       assert.include(parseTextFromHTML(response.text, '#item-title'), testItem.title);
-      assert.include(parseTextFromHTML(response.description, '#item-description'), testItem.description);
+      assert.include(parseTextFromHTML(response.text, '#item-description'), testItem.description);
     })
   })
 });

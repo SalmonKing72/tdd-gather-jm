@@ -12,6 +12,15 @@ router.get('/items/create', async (req, res, next) => {
   res.render('create', {})
 });
 
+router.get('/items/:itemId', async (req, res, next) => {
+  const item = await Item.findOne({_id: req.params.itemId});
+
+  if (!item) {
+    res.status(404).send();
+  }
+  res.render('single', {item: item.toJSON()});
+})
+
 router.post('/items/create', async (req, res, next) => {
   const itemTitle = req.body.title;
   const itemDescription = req.body.description;
