@@ -13,12 +13,22 @@ router.get('/items/create', async (req, res, next) => {
 });
 
 router.get('/items/:itemId', async (req, res, next) => {
-  const item = await Item.findOne({_id: req.params.itemId});
+  const item = await Item.findById(req.params.itemId);
 
   if (!item) {
     res.status(404).send();
   }
   res.render('single', {item: item.toJSON()});
+})
+
+router.post('/items/:itemId/delete', async (req, res, next) => {
+  await Item.deleteOne({_id: req.params.itemId}, async function (error) {
+    const items = await Item.find({});
+    if (error) {
+      res.status(400).render('index', {items})
+    }
+    res.redirect('/');
+  })
 })
 
 router.post('/items/create', async (req, res, next) => {
