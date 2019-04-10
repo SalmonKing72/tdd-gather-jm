@@ -15,12 +15,8 @@ describe('User vists create item page.', () => {
             browser.setValue('#imageUrl-input', itemToDelete.imageUrl);
             browser.click('#submit-button');
 
-            browser.click('.delete-form p')
-            // console.log(deleteLink.getText());
-            //attempting to click, via webdriver, the overlay buttons for delete resolves to the single item view...
-            // there seems to be a bug with webdriver here... This feature works when you run npm start.
+            browser.click('.delete-form p');
             assert.include(browser.getText('body'), itemToDelete.title);
-            // deleteLink.click();
         })
     })
 })
