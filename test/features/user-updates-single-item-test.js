@@ -5,7 +5,7 @@ describe('User vists create item page.', () => {
     describe('posts a new item.', () => {
         it('updates the item', () => {
             let itemToDelete = buildItemObject({
-                description: "An item to delete",
+                description: "An item to update",
                 imageUrl: "https://i.ytimg.com/vi/Ud1wq0lx1oY/hqdefault.jpg",
                 title: "Bad Fruit"
             });
