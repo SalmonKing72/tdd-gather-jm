@@ -3,7 +3,7 @@ const {buildItemObject} = require('../test-utils');
 
 describe('User vists create item page.', () => {
     describe('posts a new item.', () => {
-        it('deletes the item', () => {
+        it('updates the item', () => {
             let itemToDelete = buildItemObject({
                 description: "An item to delete",
                 imageUrl: "https://i.ytimg.com/vi/Ud1wq0lx1oY/hqdefault.jpg",
@@ -15,12 +15,9 @@ describe('User vists create item page.', () => {
             browser.setValue('#imageUrl-input', itemToDelete.imageUrl);
             browser.click('#submit-button');
 
-            browser.click('.delete-form p')
-            // console.log(deleteLink.getText());
-            //attempting to click, via webdriver, the overlay buttons for delete resolves to the single item view...
-            // there seems to be a bug with webdriver here... This feature works when you run npm start.
-            assert.include(browser.getText('body'), itemToDelete.title);
-            // deleteLink.click();
+            browser.click('.item-card a');
+            
+            browser.click('#update-button');
         })
     })
 })
