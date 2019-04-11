@@ -12,6 +12,11 @@ router.get('/items/create', async (req, res, next) => {
   res.render('create', {})
 });
 
+router.get('/items/:itemId/update', async (req, res, next) => {
+  const item = await Item.findById(req.params.itemId);
+  res.render('update', {item});
+});
+
 router.get('/items/:itemId', async (req, res, next) => {
   const item = await Item.findById(req.params.itemId);
 
@@ -28,8 +33,26 @@ router.post('/items/:itemId/delete', async (req, res, next) => {
       res.status(400).render('index', {items})
     }
     res.redirect('/');
-  })
-})
+  });
+});
+
+router.post('/items/:itemId/update', async (req, res, next) => {
+  const updatedItemObj = {
+    title: req.body.title,
+    description: req.body.description,
+    imageUrl: req.body.imageUrl
+  };
+
+  const item = new Item(updatedItemObj);
+  item.validateSync();
+
+  if(item.errors) {
+    res.status(400).render('create', {newItem: item});
+  } else {
+    await Item.updateOne({_id: req.params.itemId}, updatedItemObj, {omitUndefined: true});
+    res.redirect('/');
+  }
+});
 
 router.post('/items/create', async (req, res, next) => {
   const itemTitle = req.body.title;

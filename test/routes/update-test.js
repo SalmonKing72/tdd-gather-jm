@@ -4,7 +4,7 @@ const request = require('supertest');
 const app = require('../../app');
 const Item = require('../../models/item');
 
-const {parseTextFromHTML, seedItemToDatabase, buildItemObject} = require('../test-utils');
+const {parseTextFromHTML, parseValueFromHTMLInput, seedItemToDatabase, buildItemObject} = require('../test-utils');
 const {connectDatabaseAndDropData, diconnectDatabase} = require('../setup-teardown-utils');
 
 describe('Server path: /items/:id/update', () => {
@@ -13,6 +13,25 @@ describe('Server path: /items/:id/update', () => {
   afterEach(diconnectDatabase);
 
   // Write your test blocks below:
+  describe('GET', () => {
+    it('renders item input fields', async () => {
+      const testItem = await seedItemToDatabase({
+        description: "My favorite item", 
+        imageUrl: "https://i.ytimg.com/vi/Ud1wq0lx1oY/hqdefault.jpg",
+        title: "69 Camaro SS"
+      });
+
+      const response = await request(app)
+        .get(`/items/${testItem._id}/update`)
+        .send();
+
+      assert.equal(parseValueFromHTMLInput(response.text, 'input#title-input'), testItem.title);
+      assert.equal(parseValueFromHTMLInput(response.text, 'input#imageUrl-input'), testItem.imageUrl);
+      assert.equal(parseValueFromHTMLInput(response.text, 'textarea#description-input'), testItem.description);
+      
+    });
+  });
+
   describe('POST', () => {
     it('updates a single item in database and redirects to the main view', async () => {
       const itemOptions = {
@@ -23,7 +42,7 @@ describe('Server path: /items/:id/update', () => {
       const updateItemInput = buildItemObject({
         description: "My favorite car", 
         imageUrl: "https://i.ytimg.com/vi/Ud1wq0lx1oY/hqdefault.jpg",
-        title: "69 Camaro SS"
+        title: "69 Camaro SS Black"
       })
       const testItem = await seedItemToDatabase(itemOptions);
 
@@ -36,7 +55,10 @@ describe('Server path: /items/:id/update', () => {
       
       assert.equal(response.status, 302);
       assert.equal(response.headers.location, '/');
-      assert.isNull(deletedItem, 'item was not deleted from the database');
+      assert.isNotNull(updatedItem, 'item is not in the database');
+      assert.equal(updatedItem.title, updateItemInput.title);
+      assert.equal(updatedItem.description, updateItemInput.description);
+      assert.equal(updatedItem.imageUrl, updateItemInput.imageUrl);
     });
   
     // it('displays an error message for an item with no title.', async () => {

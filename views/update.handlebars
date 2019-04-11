@@ -8,13 +8,8 @@
     <link rel='stylesheet' href='stylesheets/style.css' />
   </head>
   <body>
-    <div id="title-container">
-      <a href="index.html">
-        <img src="img/logo.svg" alt="logo" />
-        <div id="title">gather</div>
-      </a>
-    </div>
     <div class="create-container">
+      {{#with item}}
       <div class="create-card">
         <div class="create-column">
           <img id="created-image" src="https://placebear.com/900/400" alt="image to save">
@@ -23,19 +18,19 @@
         </div>
         <div class="create-column">
             <h2 class="form-title">Update item</h2>
-            <form class="input-form" action="/items/id/update" method="post" >
+            <form class="input-form" action="/items/{{_id}}/update" method="post" >
               <label class="form-label" for="title">Title</label>
-              <input id="title-input" name="title" maxlength="50" value="Big Bear"/>
+              <input id="title-input" name="title" maxlength="50" value="{{title}}"/>
             
               <label class="form-label" for="description">Description</label>
-              <textarea id="description-input" name="description">This is a really big bear!!!!</textarea>
+              <textarea id="description-input" name="description">{{description}}</textarea>
             
               <label class="form-label" for="imageUrl">Image Url</label>
-              <input id="imageUrl-input" name="imageUrl" oninput="handleChange" value="https://placebear.com/900/400"/>
+              <input id="imageUrl-input" name="imageUrl" oninput="handleChange" value="{{imageUrl}}"/>
             
               <div class="form-navigation">
                 <a href="/">
-                    <img class="back-arrow" src="img/back.svg" alt="back">
+                    <img class="back-arrow" src="/img/back.svg" alt="back">
                 </a>
                 <button class="button submit-button" id="submit-button" type="submit">
                     <p>Update</p>
@@ -44,6 +39,7 @@
             </form>
         </div>
       </div>
+      {{/with}}
     </div>
     <script>
       var img = document.getElementById('created-image');
