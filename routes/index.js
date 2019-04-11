@@ -47,7 +47,7 @@ router.post('/items/:itemId/update', async (req, res, next) => {
   item.validateSync();
 
   if(item.errors) {
-    res.status(400).render('create', {newItem: item});
+    res.status(400).render('update', {item});
   } else {
     await Item.updateOne({_id: req.params.itemId}, updatedItemObj, {omitUndefined: true});
     res.redirect('/');

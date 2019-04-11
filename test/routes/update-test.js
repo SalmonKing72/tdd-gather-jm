@@ -61,58 +61,70 @@ describe('Server path: /items/:id/update', () => {
       assert.equal(updatedItem.imageUrl, updateItemInput.imageUrl);
     });
   
-    // it('displays an error message for an item with no title.', async () => {
-    // const invalidItemToCreate = {
-    //     description: 'test',
-    //     imageUrl: 'https://www.placebear.com/200/300',
-    // };
+    it('displays an error message for an item with no title.', async () => {
+      const itemOptions = {
+          description: "My favorite item", 
+          imageUrl: "https://i.ytimg.com/vi/Ud1wq0lx1oY/hqdefault.jpg",
+          title: "69 Camaro SS"
+      };
+      const invalidUpdateInput = {
+          title: null,
+          description: 'test',
+          imageUrl: 'https://www.placebear.com/200/300',
+      };
+      const testItem = await seedItemToDatabase(itemOptions);
 
-    // const response = await request(app)
-    //     .post('/items/create')
-    //     .type('form')
-    //     .send(invalidItemToCreate);
+      const response = await request(app)
+          .post(`/items/${testItem._id}/update`)
+          .type('form')
+          .send(invalidUpdateInput);
 
-    // const items = await Item.find({});
+      assert.strictEqual(response.status, 400);
+      assert.include(parseTextFromHTML(response.text, 'form'), 'required');
+    });
 
-    // assert.equal(items.length, 0);
-    // assert.strictEqual(response.status, 400);
-    // assert.include(parseTextFromHTML(response.text, 'form'), 'required');
-    // });
+    it('displays an error message for an item with no description.', async () => {
+      const itemOptions = {
+        description: "My favorite item", 
+        imageUrl: "https://i.ytimg.com/vi/Ud1wq0lx1oY/hqdefault.jpg",
+        title: "69 Camaro SS"
+      };
+      const invalidUpdateInput = {
+          title: 'test',
+          description: null,
+          imageUrl: 'https://www.placebear.com/200/300',
+      };
+      const testItem = await seedItemToDatabase(itemOptions);
 
-    // it('displays an error message for an item with no description.', async () => {
-    // const invalidItemToCreate = {
-    //     title: 'test',
-    //     imageUrl: 'https://www.placebear.com/200/300',
-    // };
+      const response = await request(app)
+          .post(`/items/${testItem._id}/update`)
+          .type('form')
+          .send(invalidUpdateInput);
 
-    // const response = await request(app)
-    //     .post('/items/create')
-    //     .type('form')
-    //     .send(invalidItemToCreate);
+      assert.strictEqual(response.status, 400);
+      assert.include(parseTextFromHTML(response.text, 'form'), 'required');
+    })
 
-    // const items = await Item.find({});
+    it('displays an error message for an item with no image url.', async () => {
+      const itemOptions = {
+        description: "My favorite item", 
+        imageUrl: "https://i.ytimg.com/vi/Ud1wq0lx1oY/hqdefault.jpg",
+        title: "69 Camaro SS"
+      };
+      const invalidUpdateInput = {
+          title: 'test',
+          description: 'test',
+          imageUrl: null,
+      };
+      const testItem = await seedItemToDatabase(itemOptions);
 
-    // assert.equal(items.length, 0);
-    // assert.strictEqual(response.status, 400);
-    // assert.include(parseTextFromHTML(response.text, 'form'), 'required');
-    // })
+      const response = await request(app)
+          .post(`/items/${testItem._id}/update`)
+          .type('form')
+          .send(invalidUpdateInput);
 
-    // it('displays an error message for an item with no image url.', async () => {
-    // const invalidItemToCreate = {
-    //     title: 'test',
-    //     description: 'test description'
-    // };
-
-    // const response = await request(app)
-    //     .post('/items/create')
-    //     .type('form')
-    //     .send(invalidItemToCreate);
-
-    // const items = await Item.find({});
-
-    // assert.equal(items.length, 0);
-    // assert.strictEqual(response.status, 400);
-    // assert.include(parseTextFromHTML(response.text, 'form'), 'required');
-    // })
+      assert.strictEqual(response.status, 400);
+      assert.include(parseTextFromHTML(response.text, 'form'), 'required');
+    })
   })
 });

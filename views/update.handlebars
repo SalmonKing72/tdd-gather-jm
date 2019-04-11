@@ -21,12 +21,15 @@
             <form class="input-form" action="/items/{{_id}}/update" method="post" >
               <label class="form-label" for="title">Title</label>
               <input id="title-input" name="title" maxlength="50" value="{{title}}"/>
+              <span id="title-errors">{{errors.title.message}}</span>
             
               <label class="form-label" for="description">Description</label>
               <textarea id="description-input" name="description">{{description}}</textarea>
+              <span id="description-errors">{{errors.description.message}}</span>
             
               <label class="form-label" for="imageUrl">Image Url</label>
               <input id="imageUrl-input" name="imageUrl" oninput="handleChange" value="{{imageUrl}}"/>
+              <span id="image-url-errors">{{errors.imageUrl.message}}</span>
             
               <div class="form-navigation">
                 <a href="/">
