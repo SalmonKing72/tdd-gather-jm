@@ -8,3 +8,10 @@
 
 ### Run Application
 * `npm start`
+
+### Tech.
+* Mongodb
+* ExpressJS
+* Mongoose
+* Handlebars
+* Mocha, Chai, WebdriverIO JS, Supertest
